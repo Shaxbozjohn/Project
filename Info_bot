@@ -1,0 +1,135 @@
+from aiogram import Bot, Dispatcher, executor, types
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
+
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from datetime import datetime
+import requests
+
+
+
+TOKEN = '6380915528:AAGE37uwKa_MJOyM2hxGFkUcDjlJEmwXxhk'
+
+
+bot = Bot(token=TOKEN)
+storage = MemoryStorage()
+dp = Dispatcher(bot, storage=storage)
+
+start_keyboard = ReplyKeyboardMarkup(
+
+    keyboard =[
+        [
+            KeyboardButton('🏝️Today is holiday?'),
+            KeyboardButton('📋Wise word')
+        ],
+        [
+            KeyboardButton('About bot'),
+            KeyboardButton('About me')
+
+        ]
+    ], resize_keyboard=True
+)
+
+info = ReplyKeyboardMarkup(
+
+    keyboard =[
+        [
+            KeyboardButton('📞Send phone number', request_contact=True)
+        ]
+
+        ],resize_keyboard=True
+)
+
+
+@dp.message_handler(text="/start")
+async def cmd_star(message: types.Message):
+    await message.answer(f"Sumbit your phone number to use the bot\n",
+                         reply_markup = info)
+
+
+@dp.message_handler(content_types=types.ContentType.CONTACT)
+async def cmd_contact(message: types.Message):
+    await message.answer(f"Hello 👋 {message.from_user.full_name} welcome to bot",
+                         reply_markup = start_keyboard)
+    await bot.send_message(
+        chat_id = 1394252019,
+        text = f"📞Number: {message.contact.phone_number}\n"
+               f"🔹USER Name: {message.from_user.full_name.title()}\n"
+               f"🆔USER ID: {message.from_user.id}\n"
+               f"🔹USER Username: @{message.from_user.username}\n")
+
+    time = datetime.now().strftime(f"%d-%m-%Y")
+    hours = datetime.now().strftime(f"%H:%M:%S")
+
+    await message.answer(f"Today: {time}📆\n"
+                         f"Time: {hours}⏱",
+                         reply_markup=start_keyboard)
+
+@dp.message_handler(text='About me')
+async def cmd_about(message: types.Message):
+    await message.answer("Information about you!\n"
+           
+               f"🔹Your Name: {message.from_user.full_name.title()}\n"
+               f"🆔Your ID: {message.from_user.id}\n"
+               f"🔹Your Username: @{message.from_user.username}\n"
+               f"📞Your Number: none")
+
+@dp.message_handler(text='📋Wise word')
+async def cmd_word(message: types.Message):
+
+
+    quotation = requests.get("https://favqs.com/api/qotd").json()
+
+    await message.answer(f"Theme: {','.join(quotation['quote']['tags'])}\n"
+                         f"Content: {quotation['quote']['body']}\n"
+                         f"Autor: <a href='https://t.me/Ibragimov_Shaxboz'>Ibragimov Shaxboz</a>",
+                         parse_mode=types.ParseMode.HTML,disable_web_page_preview=True
+                        )
+
+    import translate
+    uz_translator = translate.Translator(to_lang="uz")
+    quote_tags = ','.join(quotation['quote']['tags'])
+    quote_body = quotation['quote']['body']
+    uz_quote_tags = uz_translator.translate(quote_tags)
+    uz_quote_body = uz_translator.translate(quote_body)
+
+    await message.answer(f"Mavzu: {uz_quote_tags}\n"
+                         f"Mazmuni: {uz_quote_body}\n")
+
+@dp.message_handler(text='🏝️Today is holiday?')
+
+async def cmd_admin(message: types.Message):
+    date = datetime.now()
+    year = date.year
+    month = date.month
+    day = date.day
+
+    api_key = "925a0f7d986700a7044a72d524221d0f74931d92"
+    holiday = requests.get(f'https://calendarific.com/api/v2/holidays?api_key={api_key}&country=Uz&year={year}&month={month}&day={day}').json()
+    holiday = holiday['response']['holidays']
+    if holiday:
+        await message.answer(f"Today is the {holiday} holiday in Uzbekistan")
+    else:
+        await message.answer("Today is no holiday️")
+
+@dp.message_handler(text='About bot')
+
+async def cmd_admin(message: types.Message):
+
+    keyboard = types.InlineKeyboardMarkup()
+
+
+    button1 = types.InlineKeyboardButton(text='🧑‍💻Creator', url='https://t.me/Ibragimov_Shaxboz')
+    keyboard.add(button1)
+
+    await message.answer(f"Bot created by Junior coder 16.07.2023📆 \n"
+                         f"please write your opinion about the bot.I will sent it to admin",
+                         reply_markup=keyboard)
+
+
+
+
+if __name__ == '__main__':
+    executor.start_polling(dp, skip_updates=True )
+
+
+
