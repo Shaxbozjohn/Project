@@ -1,0 +1,142 @@
+from aiogram import Bot, Dispatcher, executor, types
+
+
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from datetime import datetime
+from aiogram.types import InlineKeyboardMarkup,InlineKeyboardButton
+
+
+
+TOKEN = '6380915528:AAGE37uwKa_MJOyM2hxGFkUcDjlJEmwXxhk'
+
+
+bot = Bot(token=TOKEN)
+
+dp = Dispatcher(bot)
+
+start_keyboard = InlineKeyboardMarkup(
+
+inline_keyboard=[
+
+        [
+            InlineKeyboardButton(text='🐺Wolf',callback_data='wolf'),
+            InlineKeyboardButton(text='🦊Fox',callback_data='fox')
+
+        ],
+    [
+            InlineKeyboardButton(text='🐕Dog',callback_data='dog'),
+            InlineKeyboardButton(text='🐈Cat', callback_data='cat')
+    ]
+]
+)
+start_keyboard2 = InlineKeyboardMarkup(
+inline_keyboard = [
+
+    [
+        InlineKeyboardButton(text='️More Information✍',url='https://uz.wikipedia.org/wiki/Boʻri')],
+    [
+        InlineKeyboardButton(text='Back to bot🔙', callback_data='back')
+    ]
+]
+)
+
+start_keyboard3 = InlineKeyboardMarkup(
+inline_keyboard = [
+
+    [
+        InlineKeyboardButton(text='️More Information✍️',url='https://uz.wikipedia.org/wiki/Tulki')],
+    [
+        InlineKeyboardButton(text='Back to bot🔙', callback_data='back')
+    ]
+]
+)
+start_keyboard4 = InlineKeyboardMarkup(
+inline_keyboard = [
+
+    [
+        InlineKeyboardButton(text='️More Information✍️',url='https://uz.wikipedia.org/wiki/Mushuk')],
+    [
+        InlineKeyboardButton(text='Back to bot🔙', callback_data='back')
+    ]
+]
+)
+
+start_keyboard5 = InlineKeyboardMarkup(
+inline_keyboard = [
+
+    [
+        InlineKeyboardButton(text='️More Information✍️',url='https://uz.wikipedia.org/wiki/It')],
+    [
+        InlineKeyboardButton(text='Back to bot🔙', callback_data='back')
+    ]
+]
+)
+
+
+@dp.callback_query_handler(text="back")
+async def cmd_back(call: types.CallbackQuery):
+    await call.message.answer("👋You are in the main menu",
+                              reply_markup=start_keyboard)
+
+
+
+@dp.message_handler(text="/start")
+async def cmd_start(message:types.Message):
+    await message.answer(f"👋Hello {message.from_user.full_name} welcome to bot",
+                        reply_markup=start_keyboard)
+
+@dp.callback_query_handler(text="wolf")
+async def cmd_wolf(call: types.CallbackQuery):
+    await call.message.answer(f"Boʻri, qashqir (Canis lupus) — itsimonlar oilasiga mansub yirtqich sut emizuvchi hayvon."
+                              f"Yevropa, Osiyo va Shimoliy Amerikada tarqalgan. Oʻzbekistonning choʻl, dashtlari, oʻrmon, toʻqay, togʻ va togʻ etaklarida tarqalgan "
+                              f"Qor va muz bilan qoplangan baland togʻlar va tundrada ham yashaydi.Boʻrilar qoyalar orasiga, toʻqaylik va jarliklarga, quruq qamishzorlarga in quradi. "
+                              f"Tulki inlaridan ham foydalanadi. Boʻrilar inida bolalaydi va bolalarini parvarish qiladi. Chorvachilik r-nlarida podalardan uzoqqa ketmaydi. "
+                              f"Boʻrilar yanvar oyidan boshlab urchiydi. Urchish vaqtida erkaklari urgʻochisini talashib qattiq urishadi. Boʻrilar monogam hayvon. "
+                              f"Jufti uzoq muddat saqlanib qoladi. Homiladorlik davri 62— 65 kun. Yosh boʻri 3—5 ta, qarisi 6—8 ta, baʼzan 10—13 ta bola tugʻadi. "
+                              f"Bolasini 5—6 hafta emizadi. Bolasi 3 haftaligida inidan chiqa boshlaydi. Urgʻochisi emizikli davrida erkagi ovqat olib kelib turadi. "
+                              f"Bolalari goʻsht bilan oziqlanishga oʻtgandan soʻng ona boʻri ham oʻlja tutib kela boshlaydi. ",
+                              reply_markup=start_keyboard2)
+
+@dp.callback_query_handler(text="fox")
+async def cmd_wolf(call: types.CallbackQuery):
+    await call.message.answer("Tulki — itlar oilasi sutemizuvchilar bir nechta turining umumiy nomi. Ushbu guruhning faqat 11 ta turigina xususan tulkilar (lotincha: Vulpes) turiga kiritiladi. "
+                              "Eng tanish va koʻp tarqalgan vakili — oddiy tulkidir (Vulpes vulpes). Tulkilar butun dunyo boʻyicha koʻpchilik xalqlarning oʻgzaki ijodida uchraydi."
+                              "Itlar filogeniyasi boʻyicha hozirgi zamon tasavvurlariga muvofiq[1] ushbu maqolada foydalanilayotgan izohdagi tulkilar guruhi — polifiletik, shunday ekan, takson sifatida foydalanishga yaroqsiz.",
+                              reply_markup=start_keyboard3)
+
+
+@dp.callback_query_handler(text="dog")
+async def cmd_wolf(call: types.CallbackQuery):
+    await call.message.answer("It (lotincha: Canis familiaris) — boʻrisimonlar oilasiga mansub uy hayvoni. Hamma mamlakatlarda tarqalgan. "
+                              "Yovvoyi ajdodi boʻri. Mezolit davrida (miloddan avvalgi 15— 10 ming yil) xonakilashtirilgan. "
+                              "Itlarning hid bilish, eshitish va koʻrish organlari, shuningdek, miyasi yaxshi rivojlangan. "
+                              "itlarda 42 tish boʻlib, qoziq tishi nihoyatda mustahkam. Urgʻochisi 7—8 oyda, erkagi 10— 12 oyda jinsiy voyaga yetadi, "
+                              "erkak it arlon deb ataladi, qanjiklari (urgʻochilari) yiliga ikki marta kukjadi. Boʻgʻozlik davri 58—65 kun. "
+                              "1—2 tadan 12—18 tagacha tugʻadi. Itning yangi tu-gʻilgan bolasi kuchuk deyiladi. "
+                              "Kuchuk bolalar koʻr, kar, tishsiz tugʻiladi. Koʻzi 10—14 kundan keyin ochiladi, 5— 8 kundan keyin kuloklari eshita boshlaydi, "
+                              "sut tishlari 20—30 kunda chikali. Onasini 1 — 1,5 oy emadi, soʻngra boshqa ovqatlarni qam yeyaveradi. "
+                              "Itlar 12—15 yil, baʼzi zotlari 17 yilgacha yashaydi. Itlarning boʻyi 16—18 sm dan 100 sm gacha, vazni 600 g dan 90 kg gacha boradi.",
+                              reply_markup=start_keyboard5)
+ 
+
+
+@dp.callback_query_handler(text="cat")
+async def cmd_wolf(call: types.CallbackQuery):
+    await call.message.answer("Mushuklar yoki uy mushuklari (Felis Silvestris Catus) — mushuksimonlar oilasiga mansub yirtqich sut emizuvchilar urugʻi. "
+                              "Oldin uy mushugini aloxida tur sifatida xam qarashgan. Boʻyi dumgʻaza qismida yagʻriniga nisbatan baland. "
+                              "Tirnoqlari toʻliq tortiladi. Yevrosiyo, Afrika, Shim. va Jan. Amerikada tarqalgan; 30 turi, jumladan, "
+                              "Oʻzbekistonda 6 turi (silovsin, qoraquloq, toʻqay mushugi, manul, qum mushugi, yovvoyi mushuk) bor. "
+                              "Kuyikish davrida erkaklari baland ovoz bilan miyovlaydi va bir-biri bilan urishadi. Yiliga 2 marta 1—7 tadan bolalaydi. "
+                              "Yangi tugʻilgan bolasining koʻzi yumuqboʻladi. Mushuk bolasini 2-2,5 oygacha sut bilan boqadi. "
+                              "Keyin turli oʻljalar keltirib bera boshlaydi. M.ning koʻpchilik turlari mayda sut emizuvchilar (kemiruvchilar) va "
+                              "qushlar bilan, Sumatra M. i oʻsimliklar mevasi, baliqchi M., asosan, baliq bilan oziqlanadi. "
+                              "Ayrim turlarining (mas, silovsin) moʻynasi qimmatbaho. Liviya M.i kenja turi barcha xonaki M.ning nayel boshi hisoblanadi. "
+                              "Xonaki M. kemiruvchilarni qirib, foyda keltirsa, qushlarni yeb zarar keltiradi. "
+                              "10 000 yil ichida mushuklar kemiruvchilarga ov qilganligi sababli odam tomonidan qadrlangan "
+                              "7 turi va 4 ta kenja turi Xalqaro Qizil kitobga, Oʻzbekistonda uchraydigan barcha turlari ham Qizil kitobga kiritilgan",
+                              reply_markup=start_keyboard4)
+
+
+
+if __name__ == '__main__':
+    executor.start_polling(dp, skip_updates=True )
